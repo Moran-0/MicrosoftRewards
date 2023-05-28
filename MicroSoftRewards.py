@@ -2,6 +2,9 @@ import requests
 import os
 import lxml
 import urllib.parse
+
+from win32api import Sleep
+
 if __name__=="__main__":
 
     url = "https://cn.bing.com/search?"
@@ -9,11 +12,19 @@ if __name__=="__main__":
     with open("mobileCookies.txt",mode='r',encoding='utf-8') as fp:
         mobileCookies = fp.read().rstrip()
     print(mobileCookies)
+    words = ''
+    with open('SearchWords.txt', mode='r', encoding='utf-8') as fp1:
+        words = fp1.readlines()
+
+    n = len(words)
+    for i in range(n):
+        words[i] = words[i].rstrip()
+    print(words)
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Linux; Android 10; 16s Pro) AppleWebKit/537.36 '
                       '(KHTML, like Gecko) Chrome/111.0.0.0 Mobile Safari/537.36',
-        'Cookie':mobileCookies,
+        'Cookie': mobileCookies,
     }
     searchData = 'listen1'
     paramData = {
@@ -25,6 +36,10 @@ if __name__=="__main__":
     # location1 = urllib.parse.quote(location)
     # print(name1)
     # print(location1)
-    text = requests.get(url=url, headers=headers, params=paramData).text
-    print(text)
+    for i in range(n):
+        paramData['q'] = words[i]
+        print(words[i])
+        text = requests.get(url=url, headers=headers, params=paramData).text
+        Sleep(10)
+    # print(text)
 

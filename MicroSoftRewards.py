@@ -41,5 +41,6 @@ if __name__=="__main__":
         print(words[i])
         text = requests.get(url=url, headers=headers, params=paramData).text
         Sleep(10)
+    # 加砖我修改了
     # print(text)
 
